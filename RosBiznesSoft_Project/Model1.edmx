@@ -1,0 +1,416 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище RosBiznesSoftModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ClientsSet">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Address" Type="nvarchar(max)" />
+          <Property Name="INN" Type="nvarchar(max)" />
+          <Property Name="Phone" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="DelovoePO">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Sistem" Type="nvarchar(max)" />
+          <Property Name="Bezopasn" Type="nvarchar(max)" />
+          <Property Name="Project" Type="nvarchar(max)" />
+          <Property Name="Type" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="KompleksnayaAvtomatizatsiya">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="leevel" Type="nvarchar(max)" />
+          <Property Name="SrokRealizatsii" Type="nvarchar(max)" />
+          <Property Name="Price" Type="bigint" />
+          <Property Name="PO" Type="nvarchar(max)" />
+          <Property Name="KolichestvoChelovek" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="SotrudnikiSet">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Dolzhnost" Type="nvarchar(max)" />
+          <Property Name="Dob" Type="nvarchar(max)" />
+          <Property Name="Email" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="SupplySet">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdClient" Type="int" Nullable="false" />
+          <Property Name="IdTable_1" Type="int" Nullable="false" />
+          <Property Name="IdDelovoePO" Type="int" Nullable="false" />
+          <Property Name="IdKompleksnayaAvtomatizasia" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Table_1">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NazvaniyeProgrammy" Type="nvarchar(max)" />
+          <Property Name="TipZadachi" Type="nvarchar(max)" />
+          <Property Name="TipObsluzhivaniya" Type="nvarchar(max)" />
+          <Property Name="Price" Type="bigint" />
+          <Property Name="Type" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Login" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Type" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_SupplySet_ClientsSet">
+          <End Role="ClientsSet" Type="Self.ClientsSet" Multiplicity="1" />
+          <End Role="SupplySet" Type="Self.SupplySet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClientsSet">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SupplySet">
+              <PropertyRef Name="IdClient" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SupplySet_DelovoePO">
+          <End Role="DelovoePO" Type="Self.DelovoePO" Multiplicity="1" />
+          <End Role="SupplySet" Type="Self.SupplySet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DelovoePO">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SupplySet">
+              <PropertyRef Name="IdDelovoePO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SupplySet_KompleksnayaAvtomatizatsiya">
+          <End Role="KompleksnayaAvtomatizatsiya" Type="Self.KompleksnayaAvtomatizatsiya" Multiplicity="1" />
+          <End Role="SupplySet" Type="Self.SupplySet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KompleksnayaAvtomatizatsiya">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SupplySet">
+              <PropertyRef Name="IdKompleksnayaAvtomatizasia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SupplySet_Table_1">
+          <End Role="Table_1" Type="Self.Table_1" Multiplicity="1" />
+          <End Role="SupplySet" Type="Self.SupplySet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Table_1">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SupplySet">
+              <PropertyRef Name="IdTable_1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище RosBiznesSoftModelContainer">
+          <EntitySet Name="ClientsSet" EntityType="Self.ClientsSet" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DelovoePO" EntityType="Self.DelovoePO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="KompleksnayaAvtomatizatsiya" EntityType="Self.KompleksnayaAvtomatizatsiya" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SotrudnikiSet" EntityType="Self.SotrudnikiSet" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SupplySet" EntityType="Self.SupplySet" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Table_1" EntityType="Self.Table_1" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_SupplySet_ClientsSet" Association="Self.FK_SupplySet_ClientsSet">
+            <End Role="ClientsSet" EntitySet="ClientsSet" />
+            <End Role="SupplySet" EntitySet="SupplySet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SupplySet_DelovoePO" Association="Self.FK_SupplySet_DelovoePO">
+            <End Role="DelovoePO" EntitySet="DelovoePO" />
+            <End Role="SupplySet" EntitySet="SupplySet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SupplySet_KompleksnayaAvtomatizatsiya" Association="Self.FK_SupplySet_KompleksnayaAvtomatizatsiya">
+            <End Role="KompleksnayaAvtomatizatsiya" EntitySet="KompleksnayaAvtomatizatsiya" />
+            <End Role="SupplySet" EntitySet="SupplySet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SupplySet_Table_1" Association="Self.FK_SupplySet_Table_1">
+            <End Role="Table_1" EntitySet="Table_1" />
+            <End Role="SupplySet" EntitySet="SupplySet" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="RosBiznesSoftModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ClientsSet">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="INN" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="SupplySet" Relationship="Self.FK_SupplySet_ClientsSet" FromRole="ClientsSet" ToRole="SupplySet" />
+        </EntityType>
+        <EntityType Name="DelovoePO">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Sistem" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Bezopasn" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Project" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Type" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="SupplySet" Relationship="Self.FK_SupplySet_DelovoePO" FromRole="DelovoePO" ToRole="SupplySet" />
+        </EntityType>
+        <EntityType Name="KompleksnayaAvtomatizatsiya">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="leevel" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SrokRealizatsii" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Price" Type="Int64" />
+          <Property Name="PO" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="KolichestvoChelovek" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="SupplySet" Relationship="Self.FK_SupplySet_KompleksnayaAvtomatizatsiya" FromRole="KompleksnayaAvtomatizatsiya" ToRole="SupplySet" />
+        </EntityType>
+        <EntityType Name="SotrudnikiSet">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Dolzhnost" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Dob" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="SupplySet">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdClient" Type="Int32" Nullable="false" />
+          <Property Name="IdTable_1" Type="Int32" Nullable="false" />
+          <Property Name="IdDelovoePO" Type="Int32" Nullable="false" />
+          <Property Name="IdKompleksnayaAvtomatizasia" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ClientsSet" Relationship="Self.FK_SupplySet_ClientsSet" FromRole="SupplySet" ToRole="ClientsSet" />
+          <NavigationProperty Name="DelovoePO" Relationship="Self.FK_SupplySet_DelovoePO" FromRole="SupplySet" ToRole="DelovoePO" />
+          <NavigationProperty Name="KompleksnayaAvtomatizatsiya" Relationship="Self.FK_SupplySet_KompleksnayaAvtomatizatsiya" FromRole="SupplySet" ToRole="KompleksnayaAvtomatizatsiya" />
+          <NavigationProperty Name="Table_1" Relationship="Self.FK_SupplySet_Table_1" FromRole="SupplySet" ToRole="Table_1" />
+        </EntityType>
+        <EntityType Name="Table_1">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NazvaniyeProgrammy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TipZadachi" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TipObsluzhivaniya" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Price" Type="Int64" />
+          <Property Name="Type" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="SupplySet" Relationship="Self.FK_SupplySet_Table_1" FromRole="Table_1" ToRole="SupplySet" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Login" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Type" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_SupplySet_ClientsSet">
+          <End Role="ClientsSet" Type="Self.ClientsSet" Multiplicity="1" />
+          <End Role="SupplySet" Type="Self.SupplySet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClientsSet">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SupplySet">
+              <PropertyRef Name="IdClient" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SupplySet_DelovoePO">
+          <End Role="DelovoePO" Type="Self.DelovoePO" Multiplicity="1" />
+          <End Role="SupplySet" Type="Self.SupplySet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DelovoePO">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SupplySet">
+              <PropertyRef Name="IdDelovoePO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SupplySet_KompleksnayaAvtomatizatsiya">
+          <End Role="KompleksnayaAvtomatizatsiya" Type="Self.KompleksnayaAvtomatizatsiya" Multiplicity="1" />
+          <End Role="SupplySet" Type="Self.SupplySet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KompleksnayaAvtomatizatsiya">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SupplySet">
+              <PropertyRef Name="IdKompleksnayaAvtomatizasia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SupplySet_Table_1">
+          <End Role="Table_1" Type="Self.Table_1" Multiplicity="1" />
+          <End Role="SupplySet" Type="Self.SupplySet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Table_1">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SupplySet">
+              <PropertyRef Name="IdTable_1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="RosBiznesSoftEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ClientsSet" EntityType="Self.ClientsSet" />
+          <EntitySet Name="DelovoePO" EntityType="Self.DelovoePO" />
+          <EntitySet Name="KompleksnayaAvtomatizatsiya" EntityType="Self.KompleksnayaAvtomatizatsiya" />
+          <EntitySet Name="SotrudnikiSet" EntityType="Self.SotrudnikiSet" />
+          <EntitySet Name="SupplySet" EntityType="Self.SupplySet" />
+          <EntitySet Name="Table_1" EntityType="Self.Table_1" />
+          <EntitySet Name="Users" EntityType="Self.Users" />
+          <AssociationSet Name="FK_SupplySet_ClientsSet" Association="Self.FK_SupplySet_ClientsSet">
+            <End Role="ClientsSet" EntitySet="ClientsSet" />
+            <End Role="SupplySet" EntitySet="SupplySet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SupplySet_DelovoePO" Association="Self.FK_SupplySet_DelovoePO">
+            <End Role="DelovoePO" EntitySet="DelovoePO" />
+            <End Role="SupplySet" EntitySet="SupplySet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SupplySet_KompleksnayaAvtomatizatsiya" Association="Self.FK_SupplySet_KompleksnayaAvtomatizatsiya">
+            <End Role="KompleksnayaAvtomatizatsiya" EntitySet="KompleksnayaAvtomatizatsiya" />
+            <End Role="SupplySet" EntitySet="SupplySet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SupplySet_Table_1" Association="Self.FK_SupplySet_Table_1">
+            <End Role="Table_1" EntitySet="Table_1" />
+            <End Role="SupplySet" EntitySet="SupplySet" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище RosBiznesSoftModelContainer" CdmEntityContainer="RosBiznesSoftEntities">
+          <EntitySetMapping Name="ClientsSet">
+            <EntityTypeMapping TypeName="RosBiznesSoftModel.ClientsSet">
+              <MappingFragment StoreEntitySet="ClientsSet">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="INN" ColumnName="INN" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DelovoePO">
+            <EntityTypeMapping TypeName="RosBiznesSoftModel.DelovoePO">
+              <MappingFragment StoreEntitySet="DelovoePO">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Sistem" ColumnName="Sistem" />
+                <ScalarProperty Name="Bezopasn" ColumnName="Bezopasn" />
+                <ScalarProperty Name="Project" ColumnName="Project" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="KompleksnayaAvtomatizatsiya">
+            <EntityTypeMapping TypeName="RosBiznesSoftModel.KompleksnayaAvtomatizatsiya">
+              <MappingFragment StoreEntitySet="KompleksnayaAvtomatizatsiya">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="leevel" ColumnName="leevel" />
+                <ScalarProperty Name="SrokRealizatsii" ColumnName="SrokRealizatsii" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="PO" ColumnName="PO" />
+                <ScalarProperty Name="KolichestvoChelovek" ColumnName="KolichestvoChelovek" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SotrudnikiSet">
+            <EntityTypeMapping TypeName="RosBiznesSoftModel.SotrudnikiSet">
+              <MappingFragment StoreEntitySet="SotrudnikiSet">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Dolzhnost" ColumnName="Dolzhnost" />
+                <ScalarProperty Name="Dob" ColumnName="Dob" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SupplySet">
+            <EntityTypeMapping TypeName="RosBiznesSoftModel.SupplySet">
+              <MappingFragment StoreEntitySet="SupplySet">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="IdClient" ColumnName="IdClient" />
+                <ScalarProperty Name="IdTable_1" ColumnName="IdTable_1" />
+                <ScalarProperty Name="IdDelovoePO" ColumnName="IdDelovoePO" />
+                <ScalarProperty Name="IdKompleksnayaAvtomatizasia" ColumnName="IdKompleksnayaAvtomatizasia" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Table_1">
+            <EntityTypeMapping TypeName="RosBiznesSoftModel.Table_1">
+              <MappingFragment StoreEntitySet="Table_1">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="NazvaniyeProgrammy" ColumnName="NazvaniyeProgrammy" />
+                <ScalarProperty Name="TipZadachi" ColumnName="TipZadachi" />
+                <ScalarProperty Name="TipObsluzhivaniya" ColumnName="TipObsluzhivaniya" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="RosBiznesSoftModel.Users">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
